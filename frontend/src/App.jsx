@@ -1,24 +1,24 @@
-import './App.css'
-import { CreateFeedback } from './components/CreateFeedback'
-import { Feedbacks } from './components/Feedbacks'
-import React from 'react'
+import './App.css';
+import { CreateFeedback } from './components/CreateFeedback';
+import { Feedbacks } from './components/Feedbacks';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [feedbacks, setFeedbacks] = React.useState([]);
-  React.useEffect(function() {
+  const [feedbacks, setFeedbacks] = useState([]);
+
+  useEffect(() => {
     fetch('http://localhost:3000/feedbacks')
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      setFeedbacks(data.feedbacks);
-    });
+      .then(response => response.json())
+      .then(data => setFeedbacks(data.feedbacks))
+      .catch(error => console.error('Error fetching feedbacks:', error));
   }, []);
+
   return (
-    <div>
-      <CreateFeedback/>
-      <Feedbacks feedbacks={feedbacks}></Feedbacks>
+    <div className="App">
+      <CreateFeedback />
+      <Feedbacks feedbacks={feedbacks} />
     </div>
-  )
+  );
 }
-export default App
+
+export default App;
